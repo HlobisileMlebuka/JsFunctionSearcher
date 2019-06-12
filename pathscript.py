@@ -7,47 +7,42 @@ def list_all_js_function_names(path_to_js_file):
     3) it stores the results in a new list then searches for the names of functions in the js file, using 'function' as an identifier
     4) the patterns for the searches are formulated using regular expressions"""
     
-    functionlist = strings_with_function_substrings(path_to_js_file)
+    list_of_rows_with_functionsubstring = list_of_rows_with_the_word_function(path_to_js_file)
     
-    funcnames = list_all_function_names(functionlist)
+    functionnames = list_of_all_function_names(list_of_rows_with_functionsubstring)
       
-    return funcnames
+    return functionnames
         
 
 
-def strings_with_function_substrings(path_to_js_file):
+def list_of_rows_with_the_word_function(path_to_js_file):
     with open(path_to_js_file, "r") as jsfile:
-        # for jsfilelist in jsfile:
         jsfilecontents = jsfile.readlines()
-        #print(jsfilecontents)
+        
+        list_of_rows_with_functionsubstring = [x for x in jsfilecontents if 'function' in x]
+       
+    return  list_of_rows_with_functionsubstring
 
-        functionlist = [x for x in jsfilecontents if 'function' in x]
-            
-    
-    return functionlist
-
-def list_all_function_names(functionlist):
+def list_of_all_function_names(list_of_rows_with_functionsubstring):
     import re
-    funcnames = []
+    functionnames = []
     
-    for name in functionlist:
+    for name in list_of_rows_with_functionsubstring:
         if re.findall(r'(?<=function)\s\b.*\b(?=\()', name):
             pattern = re.findall(r'(?<=function\s)\b.*\b(?=\()', name)
-            funcnames.append(pattern)
-            check = True
+            functionnames.append(pattern)
+            
         else:
             pattern = re.findall(r'.*\b\s(?==\sfunction)', name)
-            funcnames.append(pattern)
-            check = True
-
-            
-    return funcnames, check
+            functionnames.append(pattern)
+              
+    return functionnames
 
 
 
 if __name__ == "__main__":
     
-    path_to_js_file = "/home/hlobisile/tdd2/script.js"
+    path_to_js_file = "/scriptjs/script.js"
     print(list_all_js_function_names(path_to_js_file))
 
 
